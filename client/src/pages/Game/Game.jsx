@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Gameboard from "../../components/Gameboard/Gameboard";
 import styles from "./Game.module.css";
 
 const Game = () => {
+  const location = useLocation();
   const [isPlayer1, setIsPlayer1] = useState(true);
+  const [players, setPlayers] = useState(null);
+
+  useEffect(() => {
+    console.log(`Location is `, location);
+  }, []);
 
   return (
     <div>

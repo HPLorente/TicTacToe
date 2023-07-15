@@ -1,14 +1,20 @@
 import styles from "./App.module.css";
 import Game from "./pages/Game/Game";
-import { MenuHTMLAttributes } from "react";
 import Menu from "./pages/Menu/Menu";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <div className={styles.container}>
-      <Menu />
-      {/* <Game /> */}
+      <Routes>
+        <Route path="/menu" element={<Menu />}></Route>
+        <Route path="/game" element={<Game />}></Route>
+      </Routes>
     </div>
+    // <Routes>
+    //   <Route path="/menu" Component={<Menu />}></Route>
+    //   <Route path="/game" Component={<Game />}></Route>
+    // </Routes>
   );
 }
 
