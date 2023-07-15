@@ -11,10 +11,6 @@ function App() {
         <Route path="/game" element={<Game />}></Route>
       </Routes>
     </div>
-    // <Routes>
-    //   <Route path="/menu" Component={<Menu />}></Route>
-    //   <Route path="/game" Component={<Game />}></Route>
-    // </Routes>
   );
 }
 
