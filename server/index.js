@@ -1,9 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
 const app = express();
-const PORT = 5000;
+const PORT = 80;
+dotenv.config(".env");
 
 // Routes
 const gameRoutes = require("./routes/Game");
