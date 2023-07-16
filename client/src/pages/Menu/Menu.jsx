@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import styles from "./Menu.module.css";
 import { useNavigate } from "react-router-dom";
+import TicTacToeImage from "../../assets/tic-tac-toe.png";
 
 const Menu = () => {
   const navigate = useNavigate();
   const [players, setPlayers] = useState({
     player1: {
-      name: '',
-      score: 0
+      name: "",
+      score: 0,
     },
     player2: {
-      name: '',
-      score: 0
+      name: "",
+      score: 0,
     },
+    draws: 0,
   });
+  const [showError, setShowError] = useState(false);
 
   function handlePlayButton() {
-    if (!players.player1 || !players.player2) {
+    if (!players.player1.name || !players.player2.name) {
+      setShowError(true);
       return;
     }
 
@@ -35,27 +39,36 @@ const Menu = () => {
       ...players,
       [`${name}`]: {
         name: value,
-        score: 0
+        score: 0,
       },
     });
-
   }
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Wanna Play Tic Tac Toe?</h1>
+      <img alt="Tic Tac Toe" src={TicTacToeImage} className={styles.image} />
+      <h1 className={styles.title}>Play Tic Tac Toe</h1>
+      <div className={styles.inputs_container}>
+        <div className={styles.input_container}>
+          <label>Player 1:</label>
+          <input name="player1" onChange={handleNameChange} />
+        </div>
+        <div className={styles.input_container}>
+          <label>Player 2:</label>
+          <input name="player2" onChange={handleNameChange}></input>
+        </div>
+      </div>
+      {showError && (
+        <p className={styles.error_text}>
+          Please enter the names for both players.
+        </p>
+      )}
 
-      <div className={styles.input_container}>
-        <label>Player 1:</label>
-        <input name="player1" onChange={handleNameChange} />
+      <div className={styles.button_container}>
+        <button className={styles.play_button} onClick={handlePlayButton}>
+          🚀 Let's Go!
+        </button>
       </div>
-      <div className={styles.input_container}>
-        <label>Player 2:</label>
-        <input name="player2" onChange={handleNameChange}></input>
-      </div>
-      <button className={styles.play_button} onClick={handlePlayButton}>
-        Play Now
-      </button>
     </div>
   );
 };

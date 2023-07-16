@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import axios from "axios";
 import styles from "./Gameboard.module.css";
 import Rodal from "rodal";
 import "rodal/lib/rodal.css";
 import { useNavigate } from "react-router-dom";
+import gameApi from "../../api/Game";
 
 const tilesInfo = [
   { row: 1, col: 1, index: 1, marked: false, mark: "", number: 8 },
@@ -16,14 +18,20 @@ const tilesInfo = [
   { row: 3, col: 3, index: 9, marked: false, mark: "", number: 2 },
 ];
 
-const Gameboard = ({ isPlayer1, setIsPlayer1, players, setPlayers }) => {
+const Gameboard = ({
+  isPlayer1,
+  setIsPlayer1,
+  players,
+  setPlayers,
+  round,
+  setRound,
+}) => {
   const [tiles, setTiles] = useState(tilesInfo);
   const [numMarked, setNumMarked] = useState(0);
   const [showWin, setShowWin] = useState(false);
-  const [hasWinner, setHasWinner] = useState(false)
-  const navigate = useNavigate()
+  const [hasWinner, setHasWinner] = useState(false);
+  const navigate = useNavigate();
 
-  
   function checkWinner(newTiles, index) {
     // Lessen the time of checking
     let winner = false;
@@ -80,81 +88,130 @@ const Gameboard = ({ isPlayer1, setIsPlayer1, players, setPlayers }) => {
 
   function handleTileClick(index) {
     // Create a copy of the tiles array
-    const activePlayer = isPlayer1? 'player1':'player2'
-    const clonedPlayers = structuredClone(players)
+    const activePlayer = isPlayer1 ? "player1" : "player2";
+    const clonedPlayers = structuredClone(players);
     const newTiles = structuredClone(tiles);
     newTiles[index].marked = true;
     newTiles[index].mark = isPlayer1 ? "O" : "X";
 
-    const addedMarked = numMarked + 1
+    const addedMarked = numMarked + 1;
 
     setNumMarked(addedMarked);
     setTiles(newTiles);
     const hasWinner = checkWinner(newTiles, index);
-    
-    if(hasWinner) {
-      setHasWinner(true)
-      setShowWin(true)
-      clonedPlayers[`${activePlayer}`].score += 1
-      setPlayers(clonedPlayers)
-      return
+
+    if (hasWinner) {
+      setHasWinner(true);
+      setShowWin(true);
+      clonedPlayers[`${activePlayer}`].score += 1;
+      setPlayers(clonedPlayers);
+      return;
     }
 
-    if(addedMarked === 9 && !hasWinner) {
-      setHasWinner(false)
-      setShowWin(true)
-      return
+    if (addedMarked === 9 && !hasWinner) {
+      setPlayers({
+        ...players,
+        draws: players.draws + 1,
+      });
+      setHasWinner(false);
+      setShowWin(true);
+      return;
     }
 
     setIsPlayer1(!isPlayer1);
   }
 
-  function handleQuit() {
-    navigate('/menu')
-  } 
+  async function handleQuit() {
+    try {
+      const response = await axios({
+        url: gameApi.addGame.url,
+        method: gameApi.addGame.method,
+        data: {
+          player1: players.player1.name,
+          player2: players.player2.name,
+          player1Score: players.player1.score,
+          player2Score: players.player2.score,
+          rounds: round,
+          draws: players.draws,
+        },
+      });
 
-  function handleNextround() {  
-    setTiles(tilesInfo)
-    setNumMarked(0)
-    setShowWin(false)
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  }
+
+  function handleNextround() {
+    setTiles(tilesInfo);
+    setNumMarked(0);
+    setRound(round + 1);
+    setShowWin(false);
   }
 
   return (
-    <>
-      <Rodal 
-      visible={showWin}
-      showCloseButton={false}
-      animation={"zoom"}
-      duration={200}
-      closeMaskOnClick={false}
-      onClose={() => setShowWin(false)}>
+    <div className={styles.container}>
+      <Rodal
+        visible={showWin}
+        showCloseButton={false}
+        animation={"zoom"}
+        duration={200}
+        closeMaskOnClick={false}
+        onClose={() => setShowWin(false)}
+      >
         <div className={styles.modal_content_container}>
-          {hasWinner? <p 
-          className={styles.win_text}> 🥳🥳 {isPlayer1? players?.player1.name: players.player2.name} won the game! 🎉🎉 </p>: <p  className={styles.win_text}>🤝 The game is a draw! 🤝</p>}          
+          {hasWinner ? (
+            <>
+              <p
+                className={styles.win_text}
+                style={{ marginBottom: 0, fontSize: "2.5rem", margin: 0 }}
+              >
+                🥳
+              </p>
+              <p className={styles.win_text}>
+                {isPlayer1 ? players?.player1.name : players.player2.name} won
+                the game!
+              </p>
+            </>
+          ) : (
+            <>
+              <p
+                className={styles.win_text}
+                style={{ marginBottom: 0, fontSize: "2.5rem", margin: 0 }}
+              >
+                🤝
+              </p>
+              <p className={styles.win_text}>The game is a draw!</p>
+            </>
+          )}
           <div className={styles.buttons_container}>
             <button onClick={handleQuit}>Quit</button>
             <button onClick={handleNextround}>Next Round</button>
           </div>
         </div>
       </Rodal>
-    <div className={styles.board}>
-      {tiles.map((tile, index) => (
-        <div
-          key={index}
-          className={`${styles.tile}`}
-          onClick={() => {
-            if (tile.marked) return;
-            handleTileClick(index);
-          }}
-          style={{ cursor: tile.marked ? "not-allowed" : "pointer" }}
-        >
-          <p style={{ color: tile.mark === "O" ? "blue" : "red" }}>
-            {tile.mark}
-          </p>
-        </div>
-      ))}
+      <div className={styles.board}>
+        {tiles.map((tile, index) => (
+          <div
+            key={index}
+            className={`${styles.tile}`}
+            onClick={() => {
+              if (tile.marked) return;
+              handleTileClick(index);
+            }}
+            style={{ cursor: tile.marked ? "not-allowed" : "pointer" }}
+          >
+            <p
+              className={styles.mark_text}
+              style={{ color: tile.mark === "O" ? "blue" : "red" }}
+            >
+              {tile.mark}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
-    </>
   );
 };
 

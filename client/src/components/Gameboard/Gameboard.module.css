@@ -1,3 +1,9 @@
+.container :global(.rodal-dialog) {
+  max-width: 500px !important;
+  height: max-content;
+  width: 100% !important;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(3, 150px);
@@ -23,6 +29,10 @@
   margin: 0;
 }
 
+.mark_text {
+  font-family: var(--tic-tact-text);
+}
+
 .tile:hover {
   background-color: gray;
   cursor: pointer;
@@ -42,6 +52,8 @@
   font-size: 1.25rem;
   color: black;
   text-align: center;
+  margin: 0;
+  margin-bottom: 20px;
 }
 
 .buttons_container {
@@ -49,7 +61,7 @@
   gap: 20px;
 }
 
-.buttons_container button {  
+.buttons_container button {
   display: inline-block;
   outline: none;
   cursor: pointer;
@@ -64,7 +76,7 @@
 }
 
 .buttons_container button:hover {
-  transition: all .1s ease;
+  transition: all 0.1s ease;
   box-shadow: 0 0 0 0 #fff, 0 0 0 3px #5e45c4;
 }
 
@@ -75,7 +87,15 @@
 
 @media screen and (max-width: 500px) {
   .board {
-    grid-template-columns: repeat(3, 70px);
-    grid-template-rows: repeat(3, 70px);
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .container :global(.rodal-dialog) {
+    padding: 0 !important;
+    left: auto !important;
+    right: auto !important;
   }
 }

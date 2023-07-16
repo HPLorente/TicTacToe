@@ -1,6 +1,18 @@
 .container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  max-height: 300px;
+  margin-block: 20px;
+}
+
+.inputs_container {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 1.5rem;
 }
 
 .input_container {
@@ -34,23 +46,28 @@
   margin: 0;
   line-height: 1;
   text-align: center;
+  margin-top: 1.5rem;
+}
+
+.button_container {
+  display: flex;
+  justify-content: center;
+}
+
+.error_text {
+  color: red;
 }
 
 .play_button {
-  margin-top: 20px;
-  color: white;
-  background-color: #342ee0;
-  padding-block: 1rem;
-  border: none;
-  border-radius: 40px;
-  font-size: 1.5rem;
   width: 100%;
+  max-width: 300px;
+  font-size: 1.25rem;
+  font-weight: 600;
   font-family: var(--base-font);
-  font-weight: bold;
 }
 
-.play_button:hover {
-  background-color: #8c68e9;
-  cursor: pointer;
-  transition: all 0.2s ease;
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
 }
