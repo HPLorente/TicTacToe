@@ -3,7 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const app = express();
-const PORT = 80;
+const PORT = 5000;
 
 // Routes
 const gameRoutes = require("./routes/Game");
@@ -31,5 +31,5 @@ mongoose
   );
 
 app.listen(PORT, () => {
-  console.log(`Listening on Port ${80}`);
+  console.log(`Listening on Port ${PORT}`);
 });
