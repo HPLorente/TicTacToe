@@ -8,3 +8,5 @@ Technology Stacks used:
 - Node.js
 - Netlify
 - AWS EC2
+
+Live production URL: https://thunderous-cendol-c43fdb.netlify.app/
