@@ -1,4 +1,4 @@
-const baseURL = "http://43.202.40.53:5000";
+const baseURL = "http://13.212.50.238:80";
 
 export default {
   addGame: { url: `${baseURL}/games`, method: "POST" },
