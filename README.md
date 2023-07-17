@@ -2,7 +2,7 @@
 A web app for tic-tac-toe game
 
 IMPORTANT NOTE:
-Please got your site settings and  allow "Insecure Content" for the api to be connected.
+Please go your site settings and  allow "Insecure Content" for the api to be connected.
 This is due to the client being deployed on HTTPS while the API is hosted on HTTP only, thus 
 having a security issue.
 
