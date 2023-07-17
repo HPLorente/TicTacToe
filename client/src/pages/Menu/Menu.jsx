@@ -19,6 +19,7 @@ const Menu = () => {
   const [showError, setShowError] = useState(false);
 
   function handlePlayButton() {
+    // If either has no name, then do not continue
     if (!players.player1.name || !players.player2.name) {
       setShowError(true);
       return;
@@ -35,6 +36,7 @@ const Menu = () => {
     const value = e.target.value;
     const name = e.target.name;
 
+    // Set player names
     setPlayers({
       ...players,
       [`${name}`]: {

@@ -13,7 +13,8 @@ const Game = () => {
   const [players, setPlayers] = useState(null);
 
   useEffect(() => {
-    console.log(location.state);
+    // Get the players state from the previous route.
+    // If no players state, then redirect to Menu Page
     if (!location?.state?.players) {
       navigate("/menu");
     }
@@ -24,7 +25,6 @@ const Game = () => {
   async function handleQuit() {
     try {
       if (round > 0) {
-        // Calculate number of draws
         const response = await axios({
           url: gameApi.addGame.url,
           method: gameApi.addGame.method,

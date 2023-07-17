@@ -14,11 +14,6 @@ const addGame = async (req, res) => {
       draws: data.draws,
     });
 
-    console.log(
-      "Date is ",
-      moment.tz("Asia/Manila").startOf("day").utcOffset(8)
-    );
-
     res.status(200).json({ success: true });
   } catch (err) {
     console.log(err);

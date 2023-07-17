@@ -12,13 +12,13 @@ const Home = () => {
 
   const fetchGames = async () => {
     try {
+      // Fetch all saved scores in DB
       const { url, method } = gameApi.getAllGames;
       const response = await axios({
         url,
         method,
       });
 
-      console.log(response);
       setPlayerList(response.data?.games ? response.data.games : []);
     } catch (err) {
       console.log(err);
