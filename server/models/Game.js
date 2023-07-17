@@ -13,6 +13,10 @@ const gameSchema = new Schema({
     type: Date,
     default: moment.tz("Asia/Manila").startOf("day").utcOffset(8),
   },
+  createdAt: {
+    type: Date,
+    default: moment.tz("Asia/Manila"),
+  },
 });
 
 module.exports = mongoose.model("Game", gameSchema);

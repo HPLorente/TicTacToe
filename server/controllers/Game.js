@@ -28,7 +28,7 @@ const addGame = async (req, res) => {
 
 const getAllGames = async (req, res) => {
   try {
-    const games = await Game.find().sort([["date", "desc"]]);
+    const games = await Game.find().sort([["createdAt", "desc"]]);
 
     res.status(200).json({
       games,
